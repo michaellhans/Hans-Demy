@@ -581,7 +581,49 @@ public class MatriksAdt{
       System.out.println(); 
     }
 
-    public static void HighTriangle(MATRIKS M){}
+    public static void HighTriangle(MATRIKS M){
+        /* Kamus Lokal */
+        int i,j,k,l,m;
+        double x,y,z;
+        /* Algoritma */
+        TulisMATRIKS(M);
+        System.out.println(String.format("\n"));
+        l = 1;
+        for(i = 1; i <= M.NKolEff; i++){
+            if(!LeadOne(M,l,i)){
+                for(j = l; j <= M.NBrsEff; j++){
+                    if(M.Mem[j][i] != 0){
+                        x = M.Mem[j][i];
+                        for(k = j+1; k <= M.NBrsEff; k++){
+                            if(M.Mem[k][i] != 0){
+                                y = M.Mem[k][i];
+                                for(m = i; m <= M.NKolEff; m++){
+                                    M.Mem[k][m] -= y/x*M.Mem[j][m];
+                                }
+                                TulisMATRIKS(M);
+                                System.out.println();
+                                System.out.println("------------");
+                            }
+                        }
+                    }
+                }
+            l++;
+            }
+        }
+        for(i = M.NBrsEff; i > 1; i--){
+            if(Idx(M,i) < Idx(M,i-1)){
+                SwapBaris(M,i,i-1);
+            }
+        }
+        TulisMATRIKS(M);
+        System.out.println();
+        System.out.println("----------------");
+        z = 1;
+        for(i = 1; i <= M.NBrsEff; i++){
+            z = z*M.Mem[i][i];
+        }
+        System.out.println(String.format("Determinannya adalah %.2f",z));
+    }
     public static void LowTriangle(MATRIKS M){}
 
     public static MATRIKS GetINVERSE(MATRIKS MAug)
