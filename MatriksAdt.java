@@ -550,8 +550,7 @@ public class MatriksAdt{
         System.exit(1);
     }
 
-    public static void Gauss(MATRIKS MAug){}
-    public static void GaussJordan(MATRIKS MAug){}
+    
     public static void InverseMethod(MATRIKS MAug)
     /* Melakukan prosedur untuk mencari solusi SPL dengan metode matriks balikan dari matriks augmented MAug */
     { /* Kamus Lokal */
@@ -665,7 +664,7 @@ public class MatriksAdt{
     }
 
 
-    public static void EGauss (MATRIKS M){
+    public static void Gauss (MATRIKS M){
         /* Kamus lokal */
         int i,j,k,l,m,n;
         double x;
@@ -748,5 +747,47 @@ public class MatriksAdt{
                 SwapBaris(M,i,i-1);
             }
         }
+        TulisMATRIKS(M);
+        System.out.println();
+        System.out.println("----------------");
+    }
+
+    public static void GaussJordan (MATRIKS M) {
+       /* KAMUS LOKAL */
+         int i, j, k, n, x;
+         double y;
+         boolean status;
+
+       /* ALGORITMA */
+       Gauss(M);
+       for (i = 2; i <= M.NBrsEff; i++ ) {
+          j = 1;
+          status = false;
+          x = 0;
+          while (j <= M.NKolEff  &&  status == false) {
+             if (M.Mem[i][j] != 0) {
+                x = j;
+                status = true;
+             }
+             j ++ ;
+          }
+
+          if (status) {
+             for (n = i - 1; n >= 1; n--) {
+                if (M.Mem[n][x] != 0) {
+                   y = M.Mem[n][x];
+                   for (k = 1; k <= M.NKolEff; k++) {
+                      M.Mem[n][k] = M.Mem[n][k] - ( M.Mem[i][k] * y ); 
+                   }
+                }
+                TulisMATRIKS(M);
+                System.out.println();
+                System.out.println("--------------");
+             }
+          }
+          TulisMATRIKS(M);
+          System.out.println();
+          System.out.println("--------------");
+       }
     }
 }
