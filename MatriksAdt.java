@@ -181,15 +181,15 @@ public class MatriksAdt{
       int i,j,m,n;
       Scanner keyboard = new Scanner(System.in);
       /* Algoritma */
-      System.out.print("Masukkan ukuran matriks MxN : ");
+      System.out.print("Masukkan ukuran matriks augmented MxN : ");
       m = keyboard.nextInt();
       n = keyboard.nextInt();
       for (i=1; i<=m; i++){
-         for (j=1; j<=n+1; j++){
+         for (j=1; j<=n; j++){
             MAug.Mem[i][j]= keyboard.nextInt();
          }
       }
-      MakeMATRIKS(m, n+1, MAug);
+      MakeMATRIKS(m, n, MAug);
    }
 
    public static void TulisMATRIKS(MATRIKS M){
@@ -494,8 +494,11 @@ public class MatriksAdt{
             if (j==N+1){
                MAug.Mem[i][j]=YTemp[i];
             }
+            else if (j==N){
+               MAug.Mem[i][j]=1;
+            }
             else {
-               MAug.Mem[i][j]=Math.pow(XTemp[i],(N+1-j));
+               MAug.Mem[i][j]=Math.pow(XTemp[i],(N-j));
             }
          }
       }
