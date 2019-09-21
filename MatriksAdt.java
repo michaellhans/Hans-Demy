@@ -611,7 +611,7 @@ public class MatriksAdt{
        for (i = 1; i <= M.NBrsEff ; i ++) {
           det = det * M.Mem[i][i];
        }
-       System.out.println(det);
+       System.out.println("Determinan: " + det);
     }
 
     public static MATRIKS GetINVERSE(MATRIKS MAug)
