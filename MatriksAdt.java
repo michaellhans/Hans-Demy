@@ -15,6 +15,11 @@ public class MatriksAdt{
         public int NBrsEff;
         public int NKolEff; 
     }
+
+    public static class POINT{
+       public double x;
+       public double y;
+    }
     /* Konstruktor */
     public static void MakeMATRIKS (int NB, int NK, MATRIKS M)
    /* Membentuk sebuah MATRIKS "kosong" yang siap diisi berukuran NB x NK di "ujung kiri" memori */
@@ -70,9 +75,16 @@ public class MatriksAdt{
       /* Algoritma */
       GetMATRIKS(MAug, M);
       GetKONSTANTA(MAug, MK);
+      System.out.println("Matriks A = ");
+      TulisMATRIKS(M); System.out.println();
+      System.out.println("Determinan Matriks A adalah "+Determinan(M)); System.out.println(); 
       for (i = 1; i<=M.NKolEff; i++){
+         System.out.println("Matriks A"+i+" = ");
+         TulisMATRIKS(MCramer(i,M,MK)); System.out.println();
+         System.out.println("Determinan Matriks A"+i+" adalah "+Determinan(MCramer(i,M,MK)));
          Hasil[i] = Determinan(MCramer(i,M,MK))/Determinan(M);
-         System.out.println("x"+i+" = "+String.format("%.4f", Hasil[i]));
+         System.out.println("x"+i+" = "+String.format("%.4f / %.4f = %.4f",Determinan(MCramer(i,M,MK)),Determinan(M),Hasil[i]));
+         System.out.println();
       }
    }
 
@@ -324,7 +336,7 @@ public class MatriksAdt{
         System.out.println("4. Kaidah Cramer");
         System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
         op = keyboard.nextInt();
-        while ((op < 1) & (op > 4)){
+        while ((op < 1) || (op > 4)){
             System.out.println("Input tidak valid, silahkan diulangi kembali");
             System.out.println("1. Metode eliminasi Gauss");
             System.out.println("2. Metode eliminasi Gauss Jordan");
@@ -339,9 +351,19 @@ public class MatriksAdt{
             case 2:
                 GaussJordan(MAug); break;    
             case 3:
-                InverseMethod(MAug); break;
+               if (MAug.NBrsEff == MAug.NKolEff-1)   
+                  InverseMethod(MAug);
+               else {
+                  System.out.println("Metode Matriks Balikan tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
+               } 
+               break;
             case 4:
-                MetodeCramer(MAug); break;
+               if (MAug.NBrsEff == MAug.NKolEff-1)   
+                  MetodeCramer(MAug);
+               else {
+                  System.out.println("Kaidah Cramer tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
+               }
+               break;
         }
         System.out.println();
     }
@@ -360,11 +382,11 @@ public class MatriksAdt{
         System.out.println("3. Metode kofaktor");
         System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
         op = keyboard.nextInt();
-        while ((op < 1) & (op > 2)){
+        while ((op < 1) || (op > 2)){
             System.out.println("Input tidak valid, silahkan diulangi kembali");
             System.out.println("1. Metode matriks segitiga atas");
             System.out.println("2. Metode matriks segitiga bawah");
-            System.out.println("2. Metode kofaktor");
+            System.out.println("3. Metode kofaktor");
             System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
             op = keyboard.nextInt();
         }
@@ -373,8 +395,8 @@ public class MatriksAdt{
                 HighTriangle(M); break;
             case 2:
                 LowTriangle(M); break;    
-            case 3: 
-                System.out.println("Determinan A adalah "+Determinan(M)); break;
+            case 3:
+                System.out.print("Determinan Matriks A adalah "+Determinan(M)); break;
         }
         System.out.println();
     }
@@ -395,7 +417,7 @@ public class MatriksAdt{
         System.out.println("2. Metode adjoin dan determinan");
         System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
         op = keyboard.nextInt();
-        while ((op < 1) & (op > 2)){
+        while ((op < 1) || (op > 2)){
             System.out.println("Input tidak valid, silahkan diulangi kembali");
             System.out.println("1. Metode eliminasi Gauss Jordan");
             System.out.println("2. Metode adjoin dan determinan");
@@ -409,7 +431,13 @@ public class MatriksAdt{
                 GaussJordan(MAug);
                 MInv = GetINVERSE(MAug); break;
             case 2:
-                MInv = Invers(M); break;
+               System.out.println();
+               System.out.println("Matriks Kofaktor dari M adalah ");
+               TulisMATRIKS(MatriksKofaktor(M)); System.out.println(); System.out.println();
+               System.out.println("Adjoin dari M adalah ");
+               TulisMATRIKS(Adjoin(M)); System.out.println(); System.out.println();
+               System.out.println("Determinan dari M adalah "+Determinan(M));  
+               MInv = Invers(M); break;
         }
         System.out.println("Invers dari M adalah ");
         TulisMATRIKS(MInv);
@@ -445,7 +473,72 @@ public class MatriksAdt{
         System.out.println();
     }
 
-   public static void Interpolasi(){}
+   public static void Interpolasi()
+   /* Program membaca sebuah bilangan N, kemudian program membaca sebanyak N titik */
+   {  /* Kamus Lokal */
+      double[] XTemp = new double[100];
+      double[] YTemp = new double[100];
+      MATRIKS MAug = new MATRIKS();
+      int i,j,N,op;
+      Scanner keyboard = new Scanner (System.in);
+      /* Algoritma */
+      System.out.print("Masukkan jumlah titik yang diinginkan = ");
+      N = keyboard.nextInt();
+      for (i=1; i<=N; i++){
+         XTemp[i] = keyboard.nextDouble();
+         YTemp[i] = keyboard.nextDouble();
+      }
+      MakeMATRIKS(N,N+1,MAug);
+      for (i=1; i<=N; i++){
+         for (j=1; j<=N+1; j++){
+            if (j==N+1){
+               MAug.Mem[i][j]=YTemp[i];
+            }
+            else {
+               MAug.Mem[i][j]=Math.pow(XTemp[i],(N+1-j));
+            }
+         }
+      }
+      System.out.println("Matriks Augmented yang terbentuk adalah ");
+      TulisMATRIKS(MAug); System.out.println(); System.out.println();
+      System.out.println("Terdapat 4 metode untuk menyelesaikan Sistem Persamaan Linier");
+      System.out.println("1. Metode eliminasi Gauss");
+      System.out.println("2. Metode eliminasi Gauss Jordan");
+      System.out.println("3. Metode matriks balikan");
+      System.out.println("4. Kaidah Cramer");
+      System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
+      op = keyboard.nextInt();
+      while ((op < 1) || (op > 4)){
+         System.out.println("Input tidak valid, silahkan diulangi kembali");
+         System.out.println("1. Metode eliminasi Gauss");
+         System.out.println("2. Metode eliminasi Gauss Jordan");
+         System.out.println("3. Metode matriks balikan");
+         System.out.println("4. Kaidah Cramer");
+         System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
+         op = keyboard.nextInt();
+      }
+      switch(op){
+         case 1:
+             Gauss(MAug); break;
+         case 2:
+             GaussJordan(MAug); break;    
+         case 3:
+            if (MAug.NBrsEff == MAug.NKolEff-1)   
+               InverseMethod(MAug);
+            else {
+               System.out.println("Metode Matriks Balikan tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
+            } 
+            break;
+         case 4:
+            if (MAug.NBrsEff == MAug.NKolEff-1)   
+               MetodeCramer(MAug);
+            else {
+               System.out.println("Kaidah Cramer tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
+            }
+            break;
+        }
+      System.out.println();
+   }
    
    public static void ExitProgram()
     /* Exit dari Program Utama */
@@ -456,9 +549,39 @@ public class MatriksAdt{
 
     public static void Gauss(MATRIKS MAug){}
     public static void GaussJordan(MATRIKS MAug){}
-    public static void InverseMethod(MATRIKS MAug){}
+    public static void InverseMethod(MATRIKS MAug)
+    /* Melakukan prosedur untuk mencari solusi SPL dengan metode matriks balikan dari matriks augmented MAug */
+    { /* Kamus Lokal */
+      MATRIKS M = new MATRIKS();
+      MATRIKS MK = new MATRIKS();
+      MATRIKS MSol = new MATRIKS();
+      int i,j;
+      int N = MAug.NBrsEff;
+      /* Algoritma */
+      GetMATRIKS(MAug, M);
+      GetKONSTANTA(MAug, MK);
+      System.out.println(); 
+      System.out.println("Matriks A = ");
+      TulisMATRIKS(M); System.out.println();
+      System.out.println(); 
+      System.out.println("Matriks Balikan A = ");
+      TulisMATRIKS(Invers(M)); System.out.println();
+      System.out.println();  
+      System.out.println("Matriks Konstanta = ");
+      TulisMATRIKS(MK); System.out.println();
+      System.out.println(); 
+      MakeMATRIKS(N,1,MSol);
+      MSol = KaliMATRIKS(Invers(M),MK);
+      System.out.println("Matriks Solusi SPL = ");
+      for (i=1; i<=N; i++){
+         System.out.println("x"+i+" = "+MSol.Mem[i][1]);
+      }
+      System.out.println(); 
+    }
+
     public static void HighTriangle(MATRIKS M){}
     public static void LowTriangle(MATRIKS M){}
+
     public static MATRIKS GetINVERSE(MATRIKS MAug)
     /* Menghasilkan matriks yang merupakan gabungan antara matriks M dan matriks I yang berukuran sama */
     { /* Kamus Lokal */

@@ -24,7 +24,7 @@ public class MainMatriks{
         System.out.println("13518119 - Lionnarta Savirandy");
         System.out.println("13518128 - Rafael Sean Putra");
         System.out.println();
-        while ((op > 0) & (op < 8)){
+        while ((op >= 1) & (op <= 7)){
             System.out.println("MENU PROGRAM");
             System.out.println("1. Sistem Persamaan Linier");
             System.out.println("2. Determinan");
@@ -35,7 +35,13 @@ public class MainMatriks{
             System.out.println("7. Keluar");
             System.out.print("Masukkan pilihan menu yang diinginkan : ");
             op = keyboard.nextInt();
-            System.out.println();
+            if ((op < 1) || (op > 7)){
+                System.out.println("Input tidak valid, harap untuk mengulangi kembali");
+                System.out.println();
+            }
+            else {
+                System.out.println();
+            }
             switch(op){
                 case 1:
                     obj.SPL(); break;
