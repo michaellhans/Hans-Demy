@@ -264,6 +264,7 @@ public class MatriksAdt{
             }
             found = false;
         }
+
         i = 1;
         for(j = 1; j <= M.NKolEff; j++){
             if(!LeadOne(M,i,j)){
