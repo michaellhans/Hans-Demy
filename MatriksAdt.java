@@ -582,7 +582,37 @@ public class MatriksAdt{
     }
 
     public static void HighTriangle(MATRIKS M){}
-    public static void LowTriangle(MATRIKS M){}
+    public static void LowTriangle(MATRIKS M){
+       /* KAMUS LOKAL */
+       int i, j, n, k;
+       double y,det;
+
+       /* ALGORITMA */
+       for (i = M.NBrsEff; i > 1; i --) {
+          for (n = i - 1; n >= 1; n--) {  
+            if ( M.Mem[n][i] != 0 ) {
+               y = M.Mem[n][i];
+               for (k = 1; k <= M.NKolEff; k++) {
+                  M.Mem[n][k] = M.Mem[n][k] - ( (M.Mem[i][k] / M.Mem[i][i]) * y);
+               }
+               TulisMATRIKS(M);
+               System.out.println();
+               System.out.println("----------------"); 
+            }
+            TulisMATRIKS(M);
+            System.out.println();
+            System.out.println("----------------");
+          }
+          TulisMATRIKS(M);
+          System.out.println();
+          System.out.println("----------------");
+       }
+       det = 1;
+       for (i = 1; i <= M.NBrsEff ; i ++) {
+          det = det * M.Mem[i][i];
+       }
+       System.out.println(det);
+    }
 
     public static MATRIKS GetINVERSE(MATRIKS MAug)
     /* Menghasilkan matriks yang merupakan gabungan antara matriks M dan matriks I yang berukuran sama */
