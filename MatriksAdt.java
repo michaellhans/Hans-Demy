@@ -216,6 +216,27 @@ public class MatriksAdt{
         }
     }
 
+    public static int Idx (MATRIKS M, int NB){
+        /* Kamus lokal */
+        int j,x;
+        boolean b;
+        /* ALgoitma */
+        x = 0;
+        b = false;
+        j = 1;
+        while(j <= M.NKolEff && b == false){
+            if(M.Mem[NB][j] != 0){
+                x = j;
+                b = true;
+            }
+            j++;
+        }
+        if(x == 0){
+            x = M.NKolEff + 1;
+        }
+        return x;
+    }
+
     public static boolean LeadOne (MATRIKS M, int NB, int NK){
         /* Kamus lokal */
         int c,i;
@@ -262,7 +283,6 @@ public class MatriksAdt{
                 System.out.println();
                 System.out.println("--------------");
             }
-            found = false;
         }
 
         i = 1;
@@ -290,9 +310,11 @@ public class MatriksAdt{
                         System.out.println("----------------");
                         n = j;
                         x = 1;
-                        while(M.Mem[l][n] == 0){
+                        while(M.Mem[l][n] == 0 && n <= M.NKolEff){
                             n++;
-                            x = M.Mem[l][n];
+                            if(M.Mem[l][n] != 0){
+                                x = M.Mem[l][n];
+                            }
                         }
                         for(m = j+1; m <= M.NKolEff; m++){
                             M.Mem[l][m] = M.Mem[l][m]/x;
@@ -303,7 +325,14 @@ public class MatriksAdt{
                     }
                 }
             }
-            i++;
+            if(M.Mem[i][j] != 0){
+                i++;
+            }
+        }
+        for(i = M.NBrsEff; i > 1; i--){
+            if(Idx(M,i) < Idx(M,i-1)){
+                SwapBaris(M,i,i-1);
+            }
         }
     }
 }
