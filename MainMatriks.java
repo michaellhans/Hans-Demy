@@ -12,6 +12,7 @@ public class MainMatriks{
     public static void main(String []args) {
         /* KAMUS UTAMA */
         MatriksAdt obj = new MatriksAdt();
+
         int op = 1;
         Scanner keyboard = new Scanner (System.in);
         /* AlGORITMA */
@@ -59,5 +60,6 @@ public class MainMatriks{
                     obj.ExitProgram();
             }
         }
+
     }
 }
