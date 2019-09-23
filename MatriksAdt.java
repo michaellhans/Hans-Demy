@@ -1,6 +1,8 @@
 /* Nama     :   Michael Hans
+                Rafael Sean Putra
                 Lionnarta Savirandy */
 /* NIM      :   13518056
+                13518119
                 13518128 */
 /* Tanggal  :   20 September 2019 */
 
@@ -171,7 +173,7 @@ public class MatriksAdt{
       N = keyboard.nextInt();
       for (i=1; i<=N; i++){
          for (j=1; j<=N; j++){
-            M.Mem[i][j]= keyboard.nextInt();
+            M.Mem[i][j]= keyboard.nextDouble();
          }
       }
       MakeMATRIKS(N, N, M);
@@ -349,9 +351,11 @@ public class MatriksAdt{
         }
         switch(op){
             case 1:
-                Gauss(MAug); break;
+                Gauss(MAug); 
+                BackwardSub(MAug); break;
             case 2:
-                GaussJordan(MAug); break;    
+                GaussJordan(MAug); 
+                BackwardSub(MAug); break;    
             case 3:
                if (MAug.NBrsEff == MAug.NKolEff-1)   
                   InverseMethod(MAug);
@@ -384,7 +388,7 @@ public class MatriksAdt{
         System.out.println("3. Metode kofaktor");
         System.out.print("Pilihlah metode pengerjaan yang diinginkan : ");
         op = keyboard.nextInt();
-        while ((op < 1) || (op > 2)){
+        while ((op < 1) || (op > 3)){
             System.out.println("Input tidak valid, silahkan diulangi kembali");
             System.out.println("1. Metode matriks segitiga atas");
             System.out.println("2. Metode matriks segitiga bawah");
@@ -398,7 +402,7 @@ public class MatriksAdt{
             case 2:
                 LowTriangle(M); break;    
             case 3:
-                System.out.print("Determinan Matriks A adalah "+Determinan(M)); break;
+                MetodeKofaktor(M); break;
         }
         System.out.println();
     }
@@ -430,7 +434,7 @@ public class MatriksAdt{
             case 1:
                 I = Identity(M.NBrsEff);
                 MAug = GabungMATRIKS(M,I);
-                GaussJordan(MAug);
+                InversGJ(MAug);
                 MInv = GetINVERSE(MAug); break;
             case 2:
                System.out.println();
@@ -439,7 +443,13 @@ public class MatriksAdt{
                System.out.println("Adjoin dari M adalah ");
                TulisMATRIKS(Adjoin(M)); System.out.println(); System.out.println();
                System.out.println("Determinan dari M adalah "+Determinan(M));  
-               MInv = Invers(M); break;
+               if (Determinan(M)== 0){
+                  System.out.println("Matriks M tidak mempunyai invers"); 
+               }
+               else {
+                  MInv = Invers(M);
+               }   
+               break;
         }
         System.out.println("Invers dari M adalah ");
         TulisMATRIKS(MInv);
@@ -480,6 +490,7 @@ public class MatriksAdt{
    {  /* Kamus Lokal */
       double[] XTemp = new double[100];
       double[] YTemp = new double[100];
+      double[] Hasil = new double[100];
       MATRIKS MAug = new MATRIKS();
       int i,j,N,op;
       Scanner keyboard = new Scanner (System.in);
@@ -524,23 +535,19 @@ public class MatriksAdt{
       }
       switch(op){
          case 1:
-             Gauss(MAug); break;
+             Gauss(MAug);
+             BackwardSubInterpolasi(MAug,Hasil);
+             TulisPolinom(Hasil,N); break;
          case 2:
-             GaussJordan(MAug); break;    
-         case 3:
-            if (MAug.NBrsEff == MAug.NKolEff-1)   
-               InverseMethod(MAug);
-            else {
-               System.out.println("Metode Matriks Balikan tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
-            } 
-            break;
+             GaussJordan(MAug);
+             BackwardSubInterpolasi(MAug,Hasil);
+             TulisPolinom(Hasil,N); break;    
+         case 3:  
+             InverseMethodInterpolasi(MAug,Hasil);
+             TulisPolinom(Hasil,N); break;
          case 4:
-            if (MAug.NBrsEff == MAug.NKolEff-1)   
-               MetodeCramer(MAug);
-            else {
-               System.out.println("Kaidah Cramer tidak bisa dilakukan karena ukuran Matriks Koefisien Bukan Bujur Sangkar");
-            }
-            break;
+             MetodeCramerInterpolasi(MAug,Hasil);
+             TulisPolinom(Hasil,N); break;
         }
       System.out.println();
    }
@@ -567,19 +574,25 @@ public class MatriksAdt{
       System.out.println(); 
       System.out.println("Matriks A = ");
       TulisMATRIKS(M); System.out.println();
-      System.out.println(); 
-      System.out.println("Matriks Balikan A = ");
-      TulisMATRIKS(Invers(M)); System.out.println();
-      System.out.println();  
-      System.out.println("Matriks Konstanta = ");
-      TulisMATRIKS(MK); System.out.println();
-      System.out.println(); 
-      MakeMATRIKS(N,1,MSol);
-      MSol = KaliMATRIKS(Invers(M),MK);
-      System.out.println("Matriks Solusi SPL = ");
-      for (i=1; i<=N; i++){
-         System.out.println("x"+i+" = "+MSol.Mem[i][1]);
+      System.out.println();
+      if (Determinan(M)==0){
+         System.out.println("SPL tidak mempunyai solusi");  
       }
+      else {
+         System.out.println("Matriks Balikan A = ");
+         TulisMATRIKS(Invers(M)); System.out.println();
+         System.out.println();  
+         System.out.println("Matriks Konstanta = ");
+         TulisMATRIKS(MK); System.out.println();
+         System.out.println(); 
+         MakeMATRIKS(N,1,MSol);
+         MSol = KaliMATRIKS(Invers(M),MK);
+         System.out.println("Matriks Solusi SPL = ");
+         for (i=1; i<=N; i++){
+            System.out.println("x"+i+" = "+MSol.Mem[i][1]);
+         }
+      } 
+      
       System.out.println(); 
     }
 
@@ -669,7 +682,7 @@ public class MatriksAdt{
       MakeMATRIKS(N, N, MInv);
       for (i=1; i<=N; i++){
          for (j=1; j<=N; j++){
-            MInv.Mem[i][j] = MAug.Mem[i][j];
+            MInv.Mem[i][j] = MAug.Mem[i][j+N];
          }
       }
       return MInv;
@@ -866,6 +879,7 @@ public class MatriksAdt{
        }
     }
 
+
    public static void bacaFile(MATRIKS M){
       /* Kamus Lokal */
       char cc;
@@ -915,6 +929,229 @@ public class MatriksAdt{
       catch (FileNotFoundException e) {
          System.out.println("An error occurred.");
          e.printStackTrace();
+
+    // Function to perform the inverse operation on the matrix.
+    
+    public static void BackwardSub (MATRIKS MAug){
+      /* Kamus Lokal */
+      double [] X = new double[100];
+      int i,j;
+      int n = MAug.NBrsEff;
+      double sum;
+      /* Algoritma */
+      X[n]=MAug.Mem[n][n+1]/MAug.Mem[n][n];
+      for(i=n-1; i>=1; i--){
+          sum=0;
+          for(j=i+1; j<=n; j++){
+              sum=sum+MAug.Mem[i][j]*X[j];
+          }
+          X[i]=(MAug.Mem[i][n+1]-sum)/MAug.Mem[i][i];
+      }
+      System.out.println(); System.out.println();
+      System.out.println("Matriks Solusi SPL diatas adalah = ");
+      for (i=1; i<=n; i++){
+           System.out.println("x"+i+" = "+X[i]);
+      }
+      System.out.println();
+   }
+
+   public static void BackwardSubInterpolasi (MATRIKS MAug, double [] Hasil){
+      /* Kamus Lokal */
+      int i,j;
+      int n = MAug.NBrsEff;
+      double sum;
+      /* Algoritma */
+      Hasil[n]=MAug.Mem[n][n+1]/MAug.Mem[n][n];
+      for(i=n-1; i>=1; i--){
+          sum=0;
+          for(j=i+1; j<=n; j++){
+              sum=sum+MAug.Mem[i][j]*Hasil[j];
+          }
+          Hasil[i]=(MAug.Mem[i][n+1]-sum)/MAug.Mem[i][i];
+      }
+      System.out.println(); System.out.println();
+      System.out.println("Matriks Solusi SPL diatas adalah = ");
+      for (i=1; i<=n; i++){
+           System.out.println("a"+i+" = "+Hasil[i]);
+      }
+      System.out.println();
+   }
+
+   public static void TulisPolinom (double Hasil[], int N)
+   { /* Kamus Lokal */
+      int i;
+     /* Algoritma */
+     System.out.println("Fungsi Polinom Interpolasi yang terbentuk adalah ");
+     System.out.print("P(x) = ");
+     for (i=1; i<=N; i++){
+        if (i!=N){
+           if ((Hasil[i]>0.00001)){
+              System.out.print(String.format("%.4f",Hasil[i])+"x^"+(N-i)+" + ");
+           }
+        }
+        else {
+               System.out.print(String.format("%.4f",Hasil[i]));
+        }
+      }
+     System.out.println();
+     System.out.println();
+   }
+    
+   public static void InversGJ(MATRIKS MAug) 
+   { 
+      /* Kamus Lokal */ 
+      double temp;
+      int N = MAug.NBrsEff;
+      int i,j,k;
+      
+      // Menuliskan Matriks Augmented. 
+      System.out.println(); 
+      System.out.println("=== Augmented Matrix ==="); 
+      TulisMATRIKS(MAug); System.out.println(); 
+      System.out.println(); 
+
+      /* Pertukaran Baris sebelum dilakukan OBE */
+      for (i=N; i>1; i--) { 
+            if (MAug.Mem[i - 1][1] < MAug.Mem[i][1]) { 
+               SwapBaris(MAug,i,i-1); 
+         } 
+      } 
+  
+      // Replace a row by sum of itself and a 
+      // constant multiple of another row of the matrix 
+      for (i = 1; i <= N; i++) { 
+         for (j = 1; j <= N; j++) { 
+               if (j != i) { 
+                  temp = MAug.Mem[j][i] / MAug.Mem[i][i]; 
+                  for (k = 1; k <= 2*N; k++) { 
+                     MAug.Mem[j][k] -= MAug.Mem[i][k] * temp; 
+                  }
+                  System.out.println("----------------");
+                  TulisMATRIKS(MAug); System.out.println(); 
+               } 
+         } 
+      } 
+      // Multiply each row by a nonzero integer. 
+      // Divide row element by the diagonal element 
+      for (i = 1; i <= N; i++) { 
+  
+         temp = MAug.Mem[i][i]; 
+         for (j = 1; j <= 2*N; j++) { 
+  
+               MAug.Mem[i][j] = MAug.Mem[i][j] / temp; 
+         }
+         System.out.println("----------------");
+         TulisMATRIKS(MAug); System.out.println();  
+      } 
+  
+      /* Menuliskan Hasil Inverse berupa Matriks Augmented */ 
+      System.out.println(); 
+      System.out.println("=== Invers Matriks Augmented ==="); 
+      TulisMATRIKS(MAug); System.out.println(); 
+      System.out.println(); 
+   }
+   
+   public static void MetodeKofaktor(MATRIKS M)
+   {	/* Kamus Lokal */
+      int x,i,j;
+      MATRIKS sub = new MATRIKS();
+      double det = 0;
+      /* Algoritma */
+      if ((M.NBrsEff==1) && (M.NKolEff==1)){
+         det = M.Mem[1][1];
+         System.out.println("Karena ukuran Matriks 1x1, maka det = a11 = "+det);
+      }
+      else if ((M.NBrsEff==2) && (M.NKolEff==2)){
+         det = M.Mem[1][1]*M.Mem[2][2]-M.Mem[2][1]*M.Mem[1][2];
+         System.out.println("Karena ukuran Matriks 2x2, maka det = ad - bc = "+det);
+      }
+      else {
+         MakeMATRIKS(M.NBrsEff-1,M.NKolEff-1,sub);
+         for (x=1; x<=M.NKolEff;x++){
+            int subi = 1;
+            for (i=1+1; i<=M.NBrsEff;i++){
+               int subj = 1;
+               for (j=1; j<=M.NKolEff;j++){
+                  if (j!=x){
+                     sub.Mem[subi][subj]=M.Mem[i][j];
+                     subj++;
+                  }
+               }
+               subi++;
+            }
+            System.out.println("Minor C1"+x+" adalah ");
+            TulisMATRIKS(sub); System.out.println(); System.out.println();
+            det = det + (Math.pow(-1,1+x) * M.Mem[1][x] * Determinan(sub));
+         }
+         System.out.println("Sehingga determinan matriks tersebut adalah :");
+         for (x=1; x<=M.NKolEff;x++){
+            if (x < M.NKolEff){
+               System.out.print("-1^"+(1+x)+"*"+M.Mem[1][x]+"*det(C1"+x+") + ");
+            }   
+            else if (x == M.NKolEff){
+               System.out.print("-1^"+(1+x)+"*"+M.Mem[1][x]+"*det(C1"+x+") = ");
+            }
+         }
+         System.out.println(det);
+      }
+   }
+
+   public static void InverseMethodInterpolasi(MATRIKS MAug, double[] Hasil)
+    /* Melakukan prosedur untuk mencari solusi SPL dengan metode matriks balikan dari matriks augmented MAug */
+    { /* Kamus Lokal */
+      MATRIKS M = new MATRIKS();
+      MATRIKS MK = new MATRIKS();
+      MATRIKS MSol = new MATRIKS();
+      int i,j;
+      int N = MAug.NBrsEff;
+      /* Algoritma */
+      GetMATRIKS(MAug, M);
+      GetKONSTANTA(MAug, MK);
+      System.out.println(); 
+      System.out.println("Matriks A = ");
+      TulisMATRIKS(M); System.out.println();
+      System.out.println(); 
+      if (Determinan(M)==0){
+         System.out.println("Matriks A tidak mempunyai invers");  
+      }
+      else {
+         System.out.println("Matriks Balikan A = ");
+         TulisMATRIKS(Invers(M)); System.out.println();
+         System.out.println();  
+         System.out.println("Matriks Konstanta = ");
+         TulisMATRIKS(MK); System.out.println();
+         System.out.println(); 
+         MakeMATRIKS(N,1,MSol);
+         MSol = KaliMATRIKS(Invers(M),MK);
+         System.out.println("Matriks Solusi SPL = ");
+         for (i=1; i<=N; i++){
+         System.out.println("a"+i+" = "+MSol.Mem[i][1]);
+         Hasil[i] = MSol.Mem[i][1];
+         }
+      }
+      System.out.println(); 
+    }
+
+    public static void MetodeCramerInterpolasi (MATRIKS MAug, double[] Hasil)
+   /* Melakukan operasi penyelesaian SPL dengan Metode Cramer dengan masukan berupa Matriks Augmented */
+   {  /* Kamus Lokal */
+      MATRIKS M = new MATRIKS();
+      MATRIKS MK = new MATRIKS();
+      int i;
+      /* Algoritma */
+      GetMATRIKS(MAug, M);
+      GetKONSTANTA(MAug, MK);
+      System.out.println("Matriks A = ");
+      TulisMATRIKS(M); System.out.println();
+      System.out.println("Determinan Matriks A adalah "+Determinan(M)); System.out.println(); 
+      for (i = 1; i<=M.NKolEff; i++){
+         System.out.println("Matriks A"+i+" = ");
+         TulisMATRIKS(MCramer(i,M,MK)); System.out.println();
+         System.out.println("Determinan Matriks A"+i+" adalah "+Determinan(MCramer(i,M,MK)));
+         Hasil[i] = Determinan(MCramer(i,M,MK))/Determinan(M);
+         System.out.println("a"+i+" = "+String.format("%.4f / %.4f = %.4f",Determinan(MCramer(i,M,MK)),Determinan(M),Hasil[i]));
+         System.out.println();
+
       }
    }
 }
