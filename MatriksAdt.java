@@ -7,6 +7,8 @@
 package OpsMatriks;
 import java.lang.Math; 
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class MatriksAdt{
     /* Tipe data matriks */
@@ -863,4 +865,56 @@ public class MatriksAdt{
           System.out.println("--------------");
        }
     }
+
+   public static void bacaFile(MATRIKS M){
+      /* Kamus Lokal */
+      char cc;
+      Double elmt;
+      int i,j,NB,NK;
+
+      /* Algoritma */
+      Scanner sc = new Scanner(System.in);
+      try {
+         System.out.print("Masukkan nama file : ");
+         File fl = new File(sc.next());
+         Scanner read = new Scanner(fl);
+         NB = 0;
+         NK = 0;
+         while (read.hasNextLine()) {
+            String data = read.nextLine();
+            NB++;
+            Scanner readline = new Scanner(data);
+            while(readline.hasNextDouble()){
+               elmt = readline.nextDouble();
+               NK++;
+            }
+            readline.close();
+         }
+         NK = NK/NB;
+         read.close();
+         Scanner reads = new Scanner(fl);
+         MakeMATRIKS(NB,NK,M);
+         i = 1;
+         while (reads.hasNextLine()) {
+            String data = reads.nextLine();
+            Scanner readmatrik = new Scanner(data);
+            j = 1;
+            while(readmatrik.hasNextDouble()){
+               elmt = readmatrik.nextDouble();
+               M.Mem[i][j] = elmt;
+               j++;
+            }
+            i++;
+            readmatrik.close();
+         }
+         reads.close();
+         System.out.println(String.format("Matriks dalam file berukuran %dx%d : ",NB,NK));
+         TulisMATRIKS(M);
+         System.out.println();
+      } 
+      catch (FileNotFoundException e) {
+         System.out.println("An error occurred.");
+         e.printStackTrace();
+      }
+   }
 }
