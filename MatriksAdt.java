@@ -929,6 +929,8 @@ public class MatriksAdt{
       catch (FileNotFoundException e) {
          System.out.println("An error occurred.");
          e.printStackTrace();
+      }
+   }
 
     // Function to perform the inverse operation on the matrix.
     
