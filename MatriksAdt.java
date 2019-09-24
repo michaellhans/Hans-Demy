@@ -432,10 +432,16 @@ public class MatriksAdt{
         }
         switch(op){
             case 1:
-                I = Identity(M.NBrsEff);
-                MAug = GabungMATRIKS(M,I);
-                InversGJ(MAug);
-                MInv = GetINVERSE(MAug); break;
+               if (Determinan(M) == 0) {
+                  System.out.println("Matriks tidak memiliki matriks balikan karena Determinan matriks = 0");
+                  break;
+               }
+               else {
+                  I = Identity(M.NBrsEff);
+                  MAug = GabungMATRIKS(M,I);
+                  InversGJ(MAug);
+                  MInv = GetINVERSE(MAug); break;
+               }
             case 2:
                System.out.println();
                System.out.println("Matriks Kofaktor dari M adalah ");
