@@ -433,14 +433,22 @@ public class MatriksAdt{
         switch(op){
             case 1:
                if (Determinan(M) == 0) {
-                  System.out.println("Matriks tidak memiliki matriks balikan karena Determinan matriks = 0");
+                  System.out.println();
+                  System.out.println("Matriks tidak memiliki matriks balikan");
+                  System.out.println();
+                  System.out.println();
                   break;
                }
                else {
                   I = Identity(M.NBrsEff);
                   MAug = GabungMATRIKS(M,I);
                   InversGJ(MAug);
-                  MInv = GetINVERSE(MAug); break;
+                  MInv = GetINVERSE(MAug); 
+                  System.out.println("Invers dari M adalah ");
+                  TulisMATRIKS(MInv);
+                  System.out.println();
+                  System.out.println();
+                  break;
                }
             case 2:
                System.out.println();
@@ -450,17 +458,20 @@ public class MatriksAdt{
                TulisMATRIKS(Adjoin(M)); System.out.println(); System.out.println();
                System.out.println("Determinan dari M adalah "+Determinan(M));  
                if (Determinan(M)== 0){
-                  System.out.println("Matriks M tidak mempunyai invers"); 
+                  System.out.println();
+                  System.out.println("Matriks M tidak mempunyai invers");
+                  System.out.println();
+                  System.out.println();
                }
                else {
                   MInv = Invers(M);
+                  System.out.println("Invers dari M adalah ");
+                  TulisMATRIKS(MInv);
+                  System.out.println();
+                  System.out.println();
                }   
                break;
         }
-        System.out.println("Invers dari M adalah ");
-        TulisMATRIKS(MInv);
-        System.out.println();
-        System.out.println();
     }
 
    public static void MainKofaktor()
