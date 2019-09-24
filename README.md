@@ -10,7 +10,7 @@ Deadline : Jumat, 27 September 2019
 - [X] 3. Matriks balikan
 - [X] 4. Matriks kofaktor
 - [X] 5. Adjoin
-- [ ] 6. Interpolasi Polinom
+- [X] 6. Interpolasi Polinom
 - [X] 7. Keluar
 
 ## Menu dalam Sistem Persamaan Linier
