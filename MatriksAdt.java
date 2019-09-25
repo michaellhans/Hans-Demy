@@ -190,7 +190,7 @@ public class MatriksAdt{
       n = keyboard.nextInt();
       for (i=1; i<=m; i++){
          for (j=1; j<=n; j++){
-            MAug.Mem[i][j]= keyboard.nextInt();
+            MAug.Mem[i][j]= keyboard.nextDouble();
          }
       }
       MakeMATRIKS(m, n, MAug);
@@ -767,95 +767,72 @@ public class MatriksAdt{
         }
         return(c == 0 || c == 1);
     }
+   
+   public static void BagiBaris (MATRIKS M, int NB){
+      /* Kamus lokal */
+      int i,j;
+      double x;
+      /* Algoritma */
+      j = 1;
+      while(M.Mem[NB][j] == 0 && j <= M.NKolEff){
+         j++;
+      }
+      x = M.Mem[NB][j];
+      for (i = j; i <= M.NKolEff; i++){
+         M.Mem[NB][i] = M.Mem[NB][i]/x;
+      }
+   }
 
+   public static void SwapAllBaris (MATRIKS M){
+      /* Kamus lokal */
+      int i;
+      /* Algoritma */
+      for(i = M.NBrsEff; i > 1; i--){
+         if(Idx(M,i) < Idx(M,i-1)){
+               SwapBaris(M,i,i-1);
+         }
+      }
+   }
 
-    public static void Gauss (MATRIKS M){
-        /* Kamus lokal */
-        int i,j,k,l,m,n;
-        double x;
-        boolean found;
-        /* Algoritma */
-        /* Membuat semua baris leading 1 */
-        for (i = 1; i <= M.NBrsEff; i++){
-            x = 1;
-            j = i;
-            found = false;
-            while(j <= M.NBrsEff && found == false){
-                k = 1;
-                while(k <= M.NKolEff && found == false){
-                    if(M.Mem[j][k] != 0){
-                        found = true;
-                        x = M.Mem[j][k];
-                    }
-                    else {
-                        k++;
-                    }
-                }
-                j++;
+   public static void KurangOBE (MATRIKS M, int NB){
+      /* sudah di swap */
+      int i,j,k;
+      double x;
+      /* algoritma */
+      i = 1;
+      k = NB;
+      while(LeadOne(M,k,i) && i <= M.NKolEff){
+         BagiBaris(M,k);
+         i++;
+      }
+      BagiBaris(M,k);
+      for(j = k+1; j <= M.NBrsEff ; j++){
+         if(M.Mem[j][i] != 0){
+            x = M.Mem[j][i];
+            for(k = i; k <= M.NKolEff; k++){
+               M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];;
             }
-            if(found == true){
-                for(j = 1; j <= M.NKolEff; j++){
-                    M.Mem[i][j] = M.Mem[i][j]/x;
-                }
-                TulisMATRIKS(M);
-                System.out.println();
-                System.out.println("--------------");
-            }
-        }
+            BagiBaris(M,j);
+            TulisMATRIKS(M);
+            System.out.println();
+            System.out.println();
+         }
+      }
 
-        i = 1;
-        for(j = 1; j <= M.NKolEff; j++){
-            if(!LeadOne(M,i,j)){
-                /* Mencari baris lead one teratas */
-                k = i;
-                found = false;
-                while(k <= M.NBrsEff && found == false){
-                    if(M.Mem[k][j] != 0){
-                        found = true;
-                    }
-                    else{
-                        k++;
-                    }
-                }
-                /* meng-OBE baris dibawah lead one */
-                for(l = k+1; l <= M.NBrsEff; l++){
-                    if(M.Mem[l][j] != 0){
-                        for(m = j; m <= M.NKolEff; m++){
-                            M.Mem[l][m] = M.Mem[l][m] - M.Mem[k][m];
-                        }
-                        TulisMATRIKS(M);
-                        System.out.println();
-                        System.out.println("----------------");
-                        n = j;
-                        x = 1;
-                        while(M.Mem[l][n] == 0 && n <= M.NKolEff){
-                            n++;
-                            if(M.Mem[l][n] != 0){
-                                x = M.Mem[l][n];
-                            }
-                        }
-                        for(m = j+1; m <= M.NKolEff; m++){
-                            M.Mem[l][m] = M.Mem[l][m]/x;
-                        }
-                        TulisMATRIKS(M);
-                        System.out.println();
-                        System.out.println("----------------");
-                    }
-                }
-            }
-            if(M.Mem[i][j] != 0){
-                i++;
-            }
-        }
-        for(i = M.NBrsEff; i > 1; i--){
-            if(Idx(M,i) < Idx(M,i-1)){
-                SwapBaris(M,i,i-1);
-            }
-        }
-        TulisMATRIKS(M);
-        System.out.println();
-        System.out.println("----------------");
-    }
+   }
+
+   public static void Gauss (MATRIKS M){
+      /* Kamus Lokal */
+      int i,j;
+      /* Algoritma */
+      j = 1;
+      for(i = 1; i <= M.NBrsEff; i++){
+         SwapAllBaris(M);
+         KurangOBE(M,i,j);
+         j++;
+      }
+   }
+        
 
     public static void GaussJordan (MATRIKS M) {
        /* KAMUS LOKAL */
