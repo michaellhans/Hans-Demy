@@ -11,6 +11,8 @@ import java.lang.Math;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MatriksAdt{
     /* Tipe data matriks */
@@ -931,7 +933,22 @@ public class MatriksAdt{
          System.out.println();
       } 
       catch (FileNotFoundException e) {
-         System.out.println("An error occurred.");
+         System.out.println("Terjadi kesalahan");
+         e.printStackTrace();
+      }
+   }
+
+   public static void saveFile(Double x){
+      Scanner sc = new Scanner(System.in)
+      try {
+         System.out.print("Masukkan nama file : ");
+         FileWriter myWriter = new FileWriter(sc.next());
+         myWriter.write(x);
+         myWriter.close();
+         System.out.println("Penyimpanan ke dalam file");
+      } 
+      catch (IOException e) {
+         System.out.println("Terjadi kesalahan");
          e.printStackTrace();
       }
    }
