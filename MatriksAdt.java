@@ -765,7 +765,7 @@ public class MatriksAdt{
                 c++;
             }
         }
-        return(c == 0 || c == 1);
+        return(c == 1 || c == 0);
     }
    
    public static void BagiBaris (MATRIKS M, int NB){
@@ -801,16 +801,26 @@ public class MatriksAdt{
       /* algoritma */
       i = 1;
       k = NB;
+      
       while(LeadOne(M,k,i) && i <= M.NKolEff){
-         BagiBaris(M,k);
-         i++;
+         if(M.Mem[k][i] == 0){
+            i++;
+         }
+         else{
+            BagiBaris(M,k);
+            k++;
+         }
       }
       BagiBaris(M,k);
+      
       for(j = k+1; j <= M.NBrsEff ; j++){
          if(M.Mem[j][i] != 0){
             x = M.Mem[j][i];
             for(k = i; k <= M.NKolEff; k++){
-               M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];;
+               M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];
+               TulisMATRIKS(M);
+               System.out.println();
+               System.out.println();
             }
             BagiBaris(M,j);
             TulisMATRIKS(M);
@@ -823,13 +833,13 @@ public class MatriksAdt{
 
    public static void Gauss (MATRIKS M){
       /* Kamus Lokal */
-      int i,j;
+      int i;
       /* Algoritma */
-      j = 1;
+      
       for(i = 1; i <= M.NBrsEff; i++){
          SwapAllBaris(M);
-         KurangOBE(M,i,j);
-         j++;
+         KurangOBE(M,i);
+         
       }
    }
         
