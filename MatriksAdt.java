@@ -11,6 +11,8 @@ import java.lang.Math;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MatriksAdt{
     /* Tipe data matriks */
@@ -169,7 +171,7 @@ public class MatriksAdt{
       int i,j,N;
       Scanner keyboard = new Scanner(System.in);
       /* Algoritma */
-      System.out.print("Masukkan ukuran matriks NxN : ");
+      System.out.print("Masukkan nilai N untuk ukuran matriks NxN : ");
       N = keyboard.nextInt();
       for (i=1; i<=N; i++){
          for (j=1; j<=N; j++){
@@ -180,7 +182,7 @@ public class MatriksAdt{
    }
 
    public static void BacaAUG(MATRIKS MAug){
-      /* Membaca sebuah SPL dalam bentuk Matriks Augmented */
+      /* Membaca sebuah (SPL) dalam bentuk Matriks Augmented */
       /* Kamus Lokal */
       int i,j,m,n;
       Scanner keyboard = new Scanner(System.in);
@@ -190,7 +192,7 @@ public class MatriksAdt{
       n = keyboard.nextInt();
       for (i=1; i<=m; i++){
          for (j=1; j<=n; j++){
-            MAug.Mem[i][j]= keyboard.nextInt();
+            MAug.Mem[i][j]= keyboard.nextDouble();
          }
       }
       MakeMATRIKS(m, n, MAug);
@@ -329,10 +331,32 @@ public class MatriksAdt{
    public static void SPL()
     {  /* Kamus Lokal */
         MATRIKS MAug = new MATRIKS();
-        int op;
+        int op; int choose;
         Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        BacaAUG(MAug);
+        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("1. Baca dari input keyboard");
+        System.out.println("2. Baca dari suatu file .txt");
+        System.out.println("3. Baca dari matriks Hilbert");
+        System.out.println("Pilih metode pengisian matriks yang diinginkan");
+        choose = keyboard.nextInt();
+        while ((choose < 1) || (choose > 3)){
+            System.out.println("Input Tidak Valid! Harap diulangi");
+            System.out.println("1. Baca dari input keyboard");
+            System.out.println("2. Baca dari suatu file .txt");
+            System.out.println("3. Baca dari matriks Hilbert");
+            System.out.println("Pilih metode pengisian matriks yang diinginkan");
+            choose = keyboard.nextInt();
+        }
+        if (choose == 1){
+           BacaAUG(MAug);
+        }
+        else if (choose == 2){
+           bacaFile(MAug);
+        }
+        else if (choose == 3){
+           BacaHilbert(MAug);
+        }
         System.out.println("Terdapat 4 metode untuk menyelesaikan Sistem Persamaan Linier");
         System.out.println("1. Metode eliminasi Gauss");
         System.out.println("2. Metode eliminasi Gauss Jordan");
@@ -378,10 +402,27 @@ public class MatriksAdt{
     /* Prosedur untuk Menerima Matriks M berukuran NxN kemudian menampilkan nilai determinan dari M */
     {  /* Kamus Lokal */
         MATRIKS M = new MATRIKS();
-        int op;
+        int op; int choose;
         Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        BacaMATRIKS(M);
+        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("1. Baca dari input keyboard");
+        System.out.println("2. Baca dari suatu file .txt");
+        System.out.println("Pilih metode pengisian matriks yang diinginkan");
+        choose = keyboard.nextInt();
+        while ((choose < 1) || (choose > 2)){
+            System.out.println("Input Tidak Valid! Harap diulangi");
+            System.out.println("1. Baca dari input keyboard");
+            System.out.println("2. Baca dari suatu file .txt");
+            System.out.println("Pilih metode pengisian matriks yang diinginkan");
+            choose = keyboard.nextInt();
+        }
+        if (choose == 1){
+           BacaMATRIKS(M);
+        }
+        else if (choose == 2){
+           bacaFile(M);
+        }
         System.out.println("Terdapat 3 metode untuk menentukan determinan Matriks dari A");
         System.out.println("1. Metode matriks segitiga atas");
         System.out.println("2. Metode matriks segitiga bawah");
@@ -414,10 +455,27 @@ public class MatriksAdt{
         MATRIKS MAug = new MATRIKS();
         MATRIKS MInv = new MATRIKS();
         MATRIKS I = new MATRIKS();
-        int op;
+        int op; int choose;
         Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        BacaMATRIKS(M);
+        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("1. Baca dari input keyboard");
+        System.out.println("2. Baca dari suatu file .txt");
+        System.out.println("Pilih metode pengisian matriks yang diinginkan");
+        choose = keyboard.nextInt();
+        while ((choose < 1) || (choose > 2)){
+            System.out.println("Input Tidak Valid! Harap diulangi");
+            System.out.println("1. Baca dari input keyboard");
+            System.out.println("2. Baca dari suatu file .txt");
+            System.out.println("Pilih metode pengisian matriks yang diinginkan");
+            choose = keyboard.nextInt();
+        }
+        if (choose == 1){
+           BacaMATRIKS(M);
+        }
+        else if (choose == 2){
+           bacaFile(M);
+        }
         System.out.println("Terdapat 2 metode untuk menentukan Invers Matriks dari A");
         System.out.println("1. Metode eliminasi Gauss Jordan");
         System.out.println("2. Metode adjoin dan determinan");
@@ -479,8 +537,27 @@ public class MatriksAdt{
     {  /* Kamus Lokal */
         MatriksAdt.MATRIKS M = new MatriksAdt.MATRIKS();
         MatriksAdt.MATRIKS MKof = new MatriksAdt.MATRIKS();
+        Scanner keyboard = new Scanner (System.in);
+        int choose;
         /* Algoritma */
-        BacaMATRIKS(M);
+        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("1. Baca dari input keyboard");
+        System.out.println("2. Baca dari suatu file .txt");
+        System.out.println("Pilih metode pengisian matriks yang diinginkan");
+        choose = keyboard.nextInt();
+        while ((choose < 1) || (choose > 2)){
+            System.out.println("Input Tidak Valid! Harap diulangi");
+            System.out.println("1. Baca dari input keyboard");
+            System.out.println("2. Baca dari suatu file .txt");
+            System.out.println("Pilih metode pengisian matriks yang diinginkan");
+            choose = keyboard.nextInt();
+        }
+        if (choose == 1){
+           BacaMATRIKS(M);
+        }
+        else if (choose == 2){
+           bacaFile(M);
+        }
         MKof = MatriksKofaktor(M);
         System.out.println("Matriks Kofaktor dari M adalah ");
         TulisMATRIKS(MKof);
@@ -493,8 +570,27 @@ public class MatriksAdt{
     {  /* Kamus Lokal */
         MATRIKS M = new MATRIKS();
         MATRIKS MAdj = new MATRIKS();
+        int choose;
+        Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        BacaMATRIKS(M);
+        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("1. Baca dari input keyboard");
+        System.out.println("2. Baca dari suatu file .txt");
+        System.out.println("Pilih metode pengisian matriks yang diinginkan");
+        choose = keyboard.nextInt();
+        while ((choose < 1) || (choose > 2)){
+            System.out.println("Input Tidak Valid! Harap diulangi");
+            System.out.println("1. Baca dari input keyboard");
+            System.out.println("2. Baca dari suatu file .txt");
+            System.out.println("Pilih metode pengisian matriks yang diinginkan");
+            choose = keyboard.nextInt();
+        }
+        if (choose == 1){
+           BacaMATRIKS(M);
+        }
+        else if (choose == 2){
+           bacaFile(M);
+        }
         MAdj = Adjoin(M);
         System.out.println("Adjoin dari M adalah ");
         TulisMATRIKS(MAdj);
@@ -765,99 +861,87 @@ public class MatriksAdt{
                 c++;
             }
         }
-        return(c == 0 || c == 1);
+        return(c == 1 || c == 0);
     }
+   
+   public static void BagiBaris (MATRIKS M, int NB){
+      /* Kamus lokal */
+      int i,j;
+      double x;
+      /* Algoritma */
+      j = 1;
+      while(M.Mem[NB][j] == 0 && j <= M.NKolEff){
+         j++;
+      }
+      x = M.Mem[NB][j];
+      for (i = j; i <= M.NKolEff; i++){
+         M.Mem[NB][i] = M.Mem[NB][i]/x;
+      }
+   }
 
+   public static void SwapAllBaris (MATRIKS M){
+      /* Kamus lokal */
+      int i;
+      /* Algoritma */
+      for(i = M.NBrsEff; i > 1; i--){
+         if(Idx(M,i) < Idx(M,i-1)){
+               SwapBaris(M,i,i-1);
+         }
+      }
+   }
 
-    public static void Gauss (MATRIKS M){
-        /* Kamus lokal */
-        int i,j,k,l,m,n;
-        double x;
-        boolean found;
-        /* Algoritma */
-        /* Membuat semua baris leading 1 */
-        for (i = 1; i <= M.NBrsEff; i++){
-            x = 1;
-            j = i;
-            found = false;
-            while(j <= M.NBrsEff && found == false){
-                k = 1;
-                while(k <= M.NKolEff && found == false){
-                    if(M.Mem[j][k] != 0){
-                        found = true;
-                        x = M.Mem[j][k];
-                    }
-                    else {
-                        k++;
-                    }
-                }
-                j++;
+   public static void KurangOBE (MATRIKS M, int NB){
+      /* sudah di swap */
+      int i,j,k;
+      double x;
+      /* algoritma */
+      i = 1;
+      k = NB;
+      
+      while(LeadOne(M,k,i) && i <= M.NKolEff){
+         if(M.Mem[k][i] == 0){
+            i++;
+         }
+         else{
+            BagiBaris(M,k);
+            k++;
+         }
+      }
+      BagiBaris(M,k);
+      
+      for(j = k+1; j <= M.NBrsEff ; j++){
+         if(M.Mem[j][i] != 0){
+            x = M.Mem[j][i];
+            for(k = i; k <= M.NKolEff; k++){
+               M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];
+               TulisMATRIKS(M);
+               System.out.println();
+               System.out.println();
             }
-            if(found == true){
-                for(j = 1; j <= M.NKolEff; j++){
-                    M.Mem[i][j] = M.Mem[i][j]/x;
-                }
-                TulisMATRIKS(M);
-                System.out.println();
-                System.out.println("--------------");
-            }
-        }
+            BagiBaris(M,j);
+            TulisMATRIKS(M);
+            System.out.println();
+            System.out.println();
+         }
+      }
 
-        i = 1;
-        for(j = 1; j <= M.NKolEff; j++){
-            if(!LeadOne(M,i,j)){
-                /* Mencari baris lead one teratas */
-                k = i;
-                found = false;
-                while(k <= M.NBrsEff && found == false){
-                    if(M.Mem[k][j] != 0){
-                        found = true;
-                    }
-                    else{
-                        k++;
-                    }
-                }
-                /* meng-OBE baris dibawah lead one */
-                for(l = k+1; l <= M.NBrsEff; l++){
-                    if(M.Mem[l][j] != 0){
-                        for(m = j; m <= M.NKolEff; m++){
-                            M.Mem[l][m] = M.Mem[l][m] - M.Mem[k][m];
-                        }
-                        TulisMATRIKS(M);
-                        System.out.println();
-                        System.out.println("----------------");
-                        n = j;
-                        x = 1;
-                        while(M.Mem[l][n] == 0 && n <= M.NKolEff){
-                            n++;
-                            if(M.Mem[l][n] != 0){
-                                x = M.Mem[l][n];
-                            }
-                        }
-                        for(m = j+1; m <= M.NKolEff; m++){
-                            M.Mem[l][m] = M.Mem[l][m]/x;
-                        }
-                        TulisMATRIKS(M);
-                        System.out.println();
-                        System.out.println("----------------");
-                    }
-                }
-            }
-            if(M.Mem[i][j] != 0){
-                i++;
-            }
-        }
-        for(i = M.NBrsEff; i > 1; i--){
-            if(Idx(M,i) < Idx(M,i-1)){
-                SwapBaris(M,i,i-1);
-            }
-        }
-        TulisMATRIKS(M);
-        System.out.println();
-        System.out.println("----------------");
-    }
+   }
+
+   public static void Gauss (MATRIKS M){
+      /* Kamus Lokal */
+      int i;
+      /* Algoritma */
+      
+      for(i = 1; i <= M.NBrsEff; i++){
+         SwapAllBaris(M);
+         KurangOBE(M,i);
+         
+      }
+   }
+        
 
     public static void GaussJordan (MATRIKS M) {
+    /* Melakukan prosedur mengubah matriks augmented dengan Eliminasi Gauss Jordan */
        /* KAMUS LOKAL */
          int i, j, k, n, x;
          double y;
@@ -944,37 +1028,29 @@ public class MatriksAdt{
          System.out.println();
       } 
       catch (FileNotFoundException e) {
-         System.out.println("An error occurred.");
+         System.out.println("Terjadi kesalahan");
+         e.printStackTrace();
+      }
+   }
+
+   public static void saveFile(Double x){
+      Scanner sc = new Scanner(System.in)
+      try {
+         System.out.print("Masukkan nama file : ");
+         FileWriter myWriter = new FileWriter(sc.next());
+         myWriter.write(x);
+         myWriter.close();
+         System.out.println("Penyimpanan ke dalam file");
+      } 
+      catch (IOException e) {
+         System.out.println("Terjadi kesalahan");
          e.printStackTrace();
       }
    }
 
     // Function to perform the inverse operation on the matrix.
-    
-    public static void BackwardSub (MATRIKS MAug){
-      /* Kamus Lokal */
-      double [] X = new double[100];
-      int i,j;
-      int n = MAug.NBrsEff;
-      double sum;
-      /* Algoritma */
-      X[n]=MAug.Mem[n][n+1]/MAug.Mem[n][n];
-      for(i=n-1; i>=1; i--){
-          sum=0;
-          for(j=i+1; j<=n; j++){
-              sum=sum+MAug.Mem[i][j]*X[j];
-          }
-          X[i]=(MAug.Mem[i][n+1]-sum)/MAug.Mem[i][i];
-      }
-      System.out.println(); System.out.println();
-      System.out.println("Matriks Solusi SPL diatas adalah = ");
-      for (i=1; i<=n; i++){
-           System.out.println("x"+i+" = "+X[i]);
-      }
-      System.out.println();
-   }
-
    public static void BackwardSubInterpolasi (MATRIKS MAug, double [] Hasil){
+   /* Melakukan substitusi mundur sehingga diperoleh sebuah array Hasil yang berisi solusi augmented */
       /* Kamus Lokal */
       int i,j;
       int n = MAug.NBrsEff;
@@ -997,8 +1073,11 @@ public class MatriksAdt{
    }
 
    public static void TulisPolinom (double Hasil[], int N)
+   /* Menuliskan hasil solusi matriks dalam bentuk fungsi interpolasi polinomial */
    { /* Kamus Lokal */
       int i;
+      double x;
+      Scanner keyboard = new Scanner(System.in);
      /* Algoritma */
      System.out.println("Fungsi Polinom Interpolasi yang terbentuk adalah ");
      System.out.print("P(x) = ");
@@ -1014,9 +1093,13 @@ public class MatriksAdt{
       }
      System.out.println();
      System.out.println();
+     System.out.print("Masukkan nilai x yang ingin dihitung dengan P(x) = ");
+     x = keyboard.nextDouble();
+     System.out.println("Hasil P("+x+") adalah "+HitungPolinom(Hasil,N,x));
    }
     
-   public static void InversGJ(MATRIKS MAug) 
+   public static void InversGJ(MATRIKS MAug)
+   /* Prosedur untuk mendapatkan invers dari suatu matriks dengan metode Gauss Jordan */
    { 
       /* Kamus Lokal */ 
       double temp;
@@ -1071,6 +1154,7 @@ public class MatriksAdt{
    }
    
    public static void MetodeKofaktor(MATRIKS M)
+   /* Prosedur untuk mendapatkan nilai determinan dengan metode kofaktor */
    {	/* Kamus Lokal */
       int x,i,j;
       MATRIKS sub = new MATRIKS();
@@ -1173,4 +1257,160 @@ public class MatriksAdt{
 
       }
    }
+
+   public static boolean IsAllZero (MATRIKS MAug)
+   /* Mengecek apakah Matriks Augmented MAug mempunyai solusi atau tidak */
+   {  /* Kamus Lokal */
+      int i,j;
+      boolean check = true;
+      /* Algoritma   */
+      i=MAug.NBrsEff;
+      j=1;
+      while ((j<=MAug.NKolEff) & (check)){
+         check = (MAug.Mem[i][j]==0);
+         j++;
+      }
+      return check;
+   }
+
+   public static boolean IsNoSolution (MATRIKS MAug)
+   /* Mengecek apakah Matriks Augmented MAug mempunyai solusi atau tidak */
+   {  /* Kamus Lokal */
+      int i,j;
+      int count;
+      boolean check = true;
+      /* Algoritma   */
+      i=MAug.NBrsEff;
+      j=1; count=0;
+      while ((j<MAug.NKolEff) & (check)){
+         check = (MAug.Mem[i][j]==0);
+         j++;
+      }
+      if (check) {
+         check = (MAug.Mem[i][j]!=0);
+      }
+      return check;
+   }
+
+   public static double HitungPolinom (double[] Hasil, int N, double x)
+   /* Menghitung fungsi polinomial yang diperoleh dengan parameter nilai berupa x */
+   {  /* Kamus Lokal */
+      double total;
+      int i;
+      /* Algoritma */
+      total = 0;
+      for (i=N; i>0; i--){
+         total = total + Hasil[i]*Math.pow(x,i-1);
+      }
+      return total;
+   }
+
+   public static void ReduceBrs (MATRIKS MAug)
+   /* Menghapus baris terakhir yang berisi 0 semua */
+   {  /* Kamus Lokal */
+      int i,j;
+      MATRIKS MTemp = new MATRIKS();
+      /* Algoritma */
+      CopyMATRIKS(MAug,MTemp);
+      MakeMATRIKS(MAug.NBrsEff-1, MAug.NKolEff, MAug);
+      for (i=1; i<=MAug.NBrsEff; i++){
+         for (j=1; j<=MAug.NKolEff; j++){
+            MAug.Mem[i][j]=MTemp.Mem[i][j];
+         }
+      }
+   }
+
+   public static void BackwardSub (MATRIKS MAug)
+   /* Melakukan substitusi mundur sehingga diperoleh solusi-solusi SPL berdasarkan augmented matrix */
+   {  /* Kamus Lokal */
+      char [] FreeVar = new char[100];
+      int temp,i,j,k,count;
+      int n, x;
+      double y;
+      boolean status;
+      /* Algoritma */
+      for (i = 2; i <= MAug.NBrsEff; i++ ) {
+         j = 1;
+         status = false;
+         x = 0;
+         while (j <= MAug.NKolEff  &&  status == false) {
+            if (MAug.Mem[i][j] != 0) {
+               x = j;
+               status = true;
+            }
+            j ++ ;
+         }
+
+         if (status) {
+            for (n = i - 1; n >= 1; n--) {
+               if (MAug.Mem[n][x] != 0) {
+                  y = MAug.Mem[n][x];
+                  for (k = 1; k <= MAug.NKolEff; k++) {
+                     MAug.Mem[n][k] = MAug.Mem[n][k] - ( MAug.Mem[i][k] * y ); 
+                  }
+               }
+            }
+         }
+      }
+
+      /* Penentuan Solusi-Solusi SPL */
+      if (IsNoSolution(MAug)) {
+         System.out.println("Tidak ada solusi SPL");
+      }
+      else {
+         while (IsAllZero(MAug)){
+            ReduceBrs(MAug);
+         }
+         if (IsNoSolution(MAug)) {
+            System.out.println("Tidak ada solusi SPL");
+         }
+         else {
+            System.out.println("Matriks Solusi SPL diatas adalah = ");
+            for (i=1; i<=MAug.NBrsEff; i++){
+               count = 0;
+               temp = 115;
+               for (j=MAug.NKolEff-1; j>=i; j--){
+                  if ((j>i) & (MAug.Mem[i][j]!=0)){
+                     count++;
+                     FreeVar[j]= (char) temp;
+                     temp++;
+                  }
+                  else if (j==i){
+                     if (count == 0){
+                        System.out.print("X"+i+" = ");
+                        System.out.print(MAug.Mem[i][MAug.NKolEff]);
+                     }
+                     else {
+                        System.out.print("X"+i+" = ");
+                        System.out.print(MAug.Mem[i][MAug.NKolEff]+" + ");
+                        for (k=1; k<=count; k++){
+                           if (k<count){
+                              System.out.print(-MAug.Mem[i][MAug.NKolEff-k]+""+FreeVar[MAug.NKolEff-k]+" + ");
+                           }
+                           else {
+                              System.out.print(-MAug.Mem[i][MAug.NKolEff-k]+""+FreeVar[MAug.NKolEff-k]);
+                           }
+                        }
+                     }
+                     System.out.println();
+                  } 
+               }
+            }
+            if (MAug.NBrsEff < MAug.NKolEff-1){
+               for (i=MAug.NBrsEff+1; i<=MAug.NKolEff-1; i++){
+                  System.out.print("X"+i+" = ");
+                  System.out.println(""+FreeVar[i]);
+               }
+               System.out.println("Solusi merupakan solusi banyak");      
+            }
+            else {
+               System.out.println("Solusi merupakan solusi unik");
+            }   
+         }
+         
+      }
+      System.out.println();
+   }
+
+   public static void BacaHilbert (MATRIKS MAug){}
 }

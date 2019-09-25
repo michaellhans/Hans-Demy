@@ -1,0 +1,31 @@
+public static void BackwardSubTemp (MATRIKS MAug)
+   {  /* Kamus Lokal */
+      double [] Hasil = new double[100];
+      char [] FreeVar = new char[100];
+      /* Algoritma */
+      for (i=1; i<=MAug.NKolEff-1; i++){
+         Hasil[i] = -999;
+      }
+      if (IsNoSolution(MAug)){
+         System.out.println("Tidak ada solusi SPL yang memenuhi");
+      }
+      else if (IsAllZero(MAug)){
+         System.out.println("Solusi banyak");
+      }
+      else {
+         System.out.println("Solusi unik");
+         BackwardSub(MAug);
+      }
+      for (i=MAug.NBrsEff; i>=1; i++){
+         count = 0;
+         for (j=MAug.NKolEff-1; j>=1; j++){
+            if ((MAug.Mem[i][j] != 0) & (count = 0)){
+               
+            } 
+            if ((MAug.Mem[i][j] == 1) & (Hasil[j] == -999)){
+               Hasil[j] =  MAug.Mem[i][MAug.NKolEff-1]
+            }
+         }
+      }
+
+   }
