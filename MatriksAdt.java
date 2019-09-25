@@ -1033,8 +1033,8 @@ public class MatriksAdt{
       }
    }
 
-   public static void saveFile(Double x){
-      Scanner sc = new Scanner(System.in)
+   /*public static void saveFile(Double x){
+      Scanner sc = new Scanner(System.in);
       try {
          System.out.print("Masukkan nama file : ");
          FileWriter myWriter = new FileWriter(sc.next());
@@ -1046,7 +1046,7 @@ public class MatriksAdt{
          System.out.println("Terjadi kesalahan");
          e.printStackTrace();
       }
-   }
+   }*/
 
     // Function to perform the inverse operation on the matrix.
    public static void BackwardSubInterpolasi (MATRIKS MAug, double [] Hasil){
@@ -1412,5 +1412,34 @@ public class MatriksAdt{
       System.out.println();
    }
 
-   public static void BacaHilbert (MATRIKS MAug){}
+   public static void BacaHilbert (MATRIKS MAug) 
+   {
+      /* KAMUS LOKAL */
+      int i, j, N;
+      double k;
+      
+      /* ALGORITMA */
+      System.out.print("Masukkan ukuran N matriks hilbert: ");
+      Scanner keyboard = new Scanner(System.in);
+      N = keyboard.nextInt();
+      for (i = 1; i <= N; i ++) {
+         k = i;
+         for (j = 1; j <= N + 1; j ++) {
+            if (j != N +1) {
+               MAug.Mem[i][j] = (1/k);
+               k++; 
+            }
+            else {
+               if (i == 1) {
+                  MAug.Mem[i][j] = 1;
+               }
+               else {
+                  MAug.Mem[i][j] = 0;
+               }
+            }
+         }
+      }
+      MakeMATRIKS(N, N+1, MAug);
+      TulisMATRIKS(MAug);
+   }
 }
