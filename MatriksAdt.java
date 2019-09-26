@@ -1431,19 +1431,4 @@ public class MatriksAdt{
       TulisMATRIKS(MAug);
       System.out.println();
    }
-
-   public static boolean IsOneOnly (MATRIKS MAug, int NK)
-   {  /* Kamus Lokal */
-      int i, EffOne;
-      /* Algoritma */
-      EffOne = MAug.NBrsEff;;
-      i = 1;
-      while ((i<=MAug.NBrsEff) & (MAug.Mem[i][NK]==0)){
-         if (MAug.Mem[i][NK]==0){
-            EffOne--;
-         }
-         i++;
-      }
-      return (EffOne == 1);
-   }
 }
