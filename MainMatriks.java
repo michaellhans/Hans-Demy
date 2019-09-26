@@ -1,21 +1,34 @@
 /* Nama     :   Michael Hans
+                Rafael Sean Putra
                 Lionnarta Savirandy */
 /* NIM      :   13518056
+                13518119
                 13518128 */
 /* Tanggal  :   20 September 2019 */
 
 import OpsMatriks.MatriksAdt;
 import java.lang.Math; 
 import java.util.Scanner;
+import java.lang.*;
+import java.io.*;
 
 public class MainMatriks{
-    public static void main(String []args) {
+    public static void main(String []args) throws Exception {
         /* KAMUS UTAMA */
         MatriksAdt obj = new MatriksAdt();
-
-        int op = 1;
+        int op = 1; int open;
         Scanner keyboard = new Scanner (System.in);
+        FileOutputStream f = new FileOutputStream("Output.txt");   
         /* AlGORITMA */
+        System.out.println("MENU PROGRAM");
+        System.out.println("1. Output ke File Output.txt");
+        System.out.println("2. Output ke Command Prompt");
+        System.out.print("Masukkan pilihan menu yang diinginkan : ");
+        open = keyboard.nextInt();
+        if (open == 1){
+            System.setOut(new PrintStream(f)); 
+        }
+        /* Menu Utama */
         System.out.println();
         System.out.println("IF2123 Aljabar Linear dan Geometri");
         System.out.println("Sistem Persamaan Linear, Determinan, dan Aplikasinya");
