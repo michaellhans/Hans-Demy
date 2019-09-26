@@ -83,15 +83,20 @@ public class MatriksAdt{
       GetKONSTANTA(MAug, MK);
       System.out.println("Matriks A = ");
       TulisMATRIKS(M); System.out.println();
-      System.out.println("Determinan Matriks A adalah "+Determinan(M)); System.out.println(); 
-      for (i = 1; i<=M.NKolEff; i++){
-         System.out.println("Matriks A"+i+" = ");
-         TulisMATRIKS(MCramer(i,M,MK)); System.out.println();
-         System.out.println("Determinan Matriks A"+i+" adalah "+Determinan(MCramer(i,M,MK)));
-         Hasil[i] = Determinan(MCramer(i,M,MK))/Determinan(M);
-         System.out.println("x"+i+" = "+String.format("%.4f / %.4f = %.4f",Determinan(MCramer(i,M,MK)),Determinan(M),Hasil[i]));
-         System.out.println();
+      System.out.println("Determinan Matriks A adalah "+Determinan(M)); System.out.println();
+      if (Determinan(M)==0){
+         System.out.println("Karena determinan A = 0, maka SPL tidak mempunyai solusi");
       }
+      else {
+         for (i = 1; i<=M.NKolEff; i++){
+            System.out.println("Matriks A"+i+" = ");
+            TulisMATRIKS(MCramer(i,M,MK)); System.out.println();
+            System.out.println("Determinan Matriks A"+i+" adalah "+Determinan(MCramer(i,M,MK)));
+            Hasil[i] = Determinan(MCramer(i,M,MK))/Determinan(M);
+            System.out.println("x"+i+" = "+String.format("%.4f / %.4f = %.4f",Determinan(MCramer(i,M,MK)),Determinan(M),Hasil[i]));
+            System.out.println();
+         }
+      } 
    }
 
    public static MATRIKS Minor(int baris, int kolom, MATRIKS M){
@@ -1069,7 +1074,7 @@ public class MatriksAdt{
      System.out.print("P(x) = ");
      for (i=1; i<=N; i++){
         if (i!=N){
-           if ((Hasil[i]>0.000001)){
+           if ((Math.abs(Hasil[i])>0.000001)){
               System.out.print(String.format("%.4f",Hasil[i])+"x^"+(N-i)+" + ");
            }
         }
