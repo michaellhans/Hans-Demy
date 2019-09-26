@@ -728,9 +728,6 @@ public class MatriksAdt{
                                 for(m = i; m <= M.NKolEff; m++){
                                     M.Mem[k][m] -= y/x*M.Mem[j][m];
                                 }
-                                TulisMATRIKS(M);
-                                System.out.println();
-                                System.out.println("------------");
                             }
                         }
                     }
@@ -743,13 +740,13 @@ public class MatriksAdt{
                 SwapBaris(M,i,i-1);
             }
         }
-        TulisMATRIKS(M);
-        System.out.println();
-        System.out.println("----------------");
         z = 1;
         for(i = 1; i <= M.NBrsEff; i++){
             z = z*M.Mem[i][i];
         }
+        TulisMATRIKS(M);
+        System.out.println();
+        System.out.println();
         System.out.println(String.format("Determinannya adalah %.2f",z));
     }
 
@@ -766,22 +763,16 @@ public class MatriksAdt{
                for (k = 1; k <= M.NKolEff; k++) {
                   M.Mem[n][k] = M.Mem[n][k] - ( (M.Mem[i][k] / M.Mem[i][i]) * y);
                }
-               TulisMATRIKS(M);
-               System.out.println();
-               System.out.println("----------------"); 
             }
-            TulisMATRIKS(M);
-            System.out.println();
-            System.out.println("----------------");
           }
-          TulisMATRIKS(M);
-          System.out.println();
-          System.out.println("----------------");
        }
        det = 1;
        for (i = 1; i <= M.NBrsEff ; i ++) {
           det = det * M.Mem[i][i];
        }
+       TulisMATRIKS(M);
+       System.out.println();
+       System.out.println();
        System.out.println("Determinan: " + det);
     }
 
@@ -914,17 +905,10 @@ public class MatriksAdt{
             x = M.Mem[j][i];
             for(k = i; k <= M.NKolEff; k++){
                M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];
-               TulisMATRIKS(M);
-               System.out.println();
-               System.out.println();
             }
             BagiBaris(M,j);
-            TulisMATRIKS(M);
-            System.out.println();
-            System.out.println();
          }
       }
-
    }
 
    public static void Gauss (MATRIKS M){
@@ -935,8 +919,10 @@ public class MatriksAdt{
       for(i = 1; i <= M.NBrsEff; i++){
          SwapAllBaris(M);
          KurangOBE(M,i);
-         
       }
+      TulisMATRIKS(M);
+      System.out.println();
+      System.out.println();
    }
         
 
@@ -969,15 +955,12 @@ public class MatriksAdt{
                       M.Mem[n][k] = M.Mem[n][k] - ( M.Mem[i][k] * y ); 
                    }
                 }
-                TulisMATRIKS(M);
-                System.out.println();
-                System.out.println("--------------");
              }
           }
-          TulisMATRIKS(M);
-          System.out.println();
-          System.out.println("--------------");
        }
+       TulisMATRIKS(M);
+       System.out.println();
+       System.out.println();
     }
 
 
