@@ -1409,5 +1409,7 @@ public class MatriksAdt{
       }
       MakeMATRIKS(N, N+1, MAug);
       TulisMATRIKS(MAug);
+      System.out.println();
+      System.out.println();
    }
 }
