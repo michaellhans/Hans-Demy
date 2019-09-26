@@ -601,30 +601,48 @@ public class MatriksAdt{
    public static void Interpolasi()
    /* Program membaca sebuah bilangan N, kemudian program membaca sebanyak N titik */
    {  /* Kamus Lokal */
-      double[] XTemp = new double[100];
-      double[] YTemp = new double[100];
       double[] Hasil = new double[100];
+      MATRIKS MPoint = new MATRIKS();
       MATRIKS MAug = new MATRIKS();
-      int i,j,N,op;
+      int i,j,N,op,choose;
       Scanner keyboard = new Scanner (System.in);
       /* Algoritma */
-      System.out.print("Masukkan jumlah titik yang diinginkan = ");
-      N = keyboard.nextInt();
-      for (i=1; i<=N; i++){
-         XTemp[i] = keyboard.nextDouble();
-         YTemp[i] = keyboard.nextDouble();
+      System.out.println("Terdapat 2 metode pengisian matriks");
+      System.out.println("1. Baca dari input keyboard");
+      System.out.println("2. Baca dari suatu file .txt");
+      System.out.println("Pilih metode pengisian matriks yang diinginkan");
+      choose = keyboard.nextInt();
+      while ((choose < 1) || (choose > 2)){
+         System.out.println("Input Tidak Valid! Harap diulangi");
+         System.out.println("1. Baca dari input keyboard");
+         System.out.println("2. Baca dari suatu file .txt");
+         System.out.println("Pilih metode pengisian matriks yang diinginkan");
+         choose = keyboard.nextInt();
       }
+      if (choose == 2){
+         bacaFile(MPoint);
+      }
+      else if (choose == 1){
+         System.out.print("Masukkan jumlah titik yang diinginkan = ");
+         N = keyboard.nextInt();
+         MakeMATRIKS(N,2,MPoint);
+         for (i=1; i<=N; i++){
+            MPoint.Mem[i][1] = keyboard.nextDouble();
+            MPoint.Mem[i][2] = keyboard.nextDouble();
+         }
+      }
+      N = MPoint.NBrsEff;
       MakeMATRIKS(N,N+1,MAug);
       for (i=1; i<=N; i++){
          for (j=1; j<=N+1; j++){
             if (j==N+1){
-               MAug.Mem[i][j]=YTemp[i];
+               MAug.Mem[i][j]=MPoint.Mem[i][2];
             }
             else if (j==N){
                MAug.Mem[i][j]=1;
             }
             else {
-               MAug.Mem[i][j]=Math.pow(XTemp[i],(N-j));
+               MAug.Mem[i][j]=Math.pow(MPoint.Mem[i][1],(N-j));
             }
          }
       }
@@ -1338,24 +1356,26 @@ public class MatriksAdt{
                count = 0;
                temp = 115;
                for (j=MAug.NKolEff-1; j>=i; j--){
-                  if ((j>i) & (MAug.Mem[i][j]!=0)){
+                  if ((j > i) & (MAug.Mem[i][j]!=0)){
                      count++;
                      FreeVar[j]= (char) temp;
                      temp++;
                   }
-                  else if (j==i){
+                  else if ((j==i) & (MAug.Mem[i][j]==1)){
                      if (count == 0){
                         System.out.print("X"+i+" = ");
                         System.out.print(String.format("%.4f",MAug.Mem[i][MAug.NKolEff]));
                      }
                      else {
                         System.out.print("X"+i+" = ");
-                        System.out.print(MAug.Mem[i][MAug.NKolEff]+" + ");
+                        if (MAug.Mem[i][MAug.NKolEff]!=0){
+                           System.out.print(MAug.Mem[i][MAug.NKolEff]+" + ");
+                        }
                         for (k=1; k<=count; k++){
-                           if (k<count){
+                           if ((k<count) && (MAug.Mem[i][MAug.NKolEff-k]!=0)){
                               System.out.print(String.format("%.4f",-MAug.Mem[i][MAug.NKolEff-k])+""+FreeVar[MAug.NKolEff-k]+" + ");
                            }
-                           else {
+                           else if (MAug.Mem[i][MAug.NKolEff-k]!=0) {
                               System.out.print(String.format("%.4f",-MAug.Mem[i][MAug.NKolEff-k])+""+FreeVar[MAug.NKolEff-k]);
                            }
                         }
@@ -1409,5 +1429,21 @@ public class MatriksAdt{
       }
       MakeMATRIKS(N, N+1, MAug);
       TulisMATRIKS(MAug);
+      System.out.println();
+   }
+
+   public static boolean IsOneOnly (MATRIKS MAug, int NK)
+   {  /* Kamus Lokal */
+      int i, EffOne;
+      /* Algoritma */
+      EffOne = MAug.NBrsEff;;
+      i = 1;
+      while ((i<=MAug.NBrsEff) & (MAug.Mem[i][NK]==0)){
+         if (MAug.Mem[i][NK]==0){
+            EffOne--;
+         }
+         i++;
+      }
+      return (EffOne == 1);
    }
 }
