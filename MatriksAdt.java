@@ -22,10 +22,6 @@ public class MatriksAdt{
         public int NKolEff; 
     }
 
-    public static class POINT{
-       public double x;
-       public double y;
-    }
     /* Konstruktor */
     public static void MakeMATRIKS (int NB, int NK, MATRIKS M)
    /* Membentuk sebuah MATRIKS "kosong" yang siap diisi berukuran NB x NK di "ujung kiri" memori */
