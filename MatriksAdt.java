@@ -334,7 +334,7 @@ public class MatriksAdt{
         int op; int choose;
         Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("Terdapat 3 metode pengisian matriks");
         System.out.println("1. Baca dari input keyboard");
         System.out.println("2. Baca dari suatu file .txt");
         System.out.println("3. Baca dari matriks Hilbert");
@@ -728,9 +728,6 @@ public class MatriksAdt{
                                 for(m = i; m <= M.NKolEff; m++){
                                     M.Mem[k][m] -= y/x*M.Mem[j][m];
                                 }
-                                TulisMATRIKS(M);
-                                System.out.println();
-                                System.out.println("------------");
                             }
                         }
                     }
@@ -743,13 +740,13 @@ public class MatriksAdt{
                 SwapBaris(M,i,i-1);
             }
         }
-        TulisMATRIKS(M);
-        System.out.println();
-        System.out.println("----------------");
         z = 1;
         for(i = 1; i <= M.NBrsEff; i++){
             z = z*M.Mem[i][i];
         }
+        TulisMATRIKS(M);
+        System.out.println();
+        System.out.println();
         System.out.println(String.format("Determinannya adalah %.2f",z));
     }
 
@@ -766,22 +763,16 @@ public class MatriksAdt{
                for (k = 1; k <= M.NKolEff; k++) {
                   M.Mem[n][k] = M.Mem[n][k] - ( (M.Mem[i][k] / M.Mem[i][i]) * y);
                }
-               TulisMATRIKS(M);
-               System.out.println();
-               System.out.println("----------------"); 
             }
-            TulisMATRIKS(M);
-            System.out.println();
-            System.out.println("----------------");
           }
-          TulisMATRIKS(M);
-          System.out.println();
-          System.out.println("----------------");
        }
        det = 1;
        for (i = 1; i <= M.NBrsEff ; i ++) {
           det = det * M.Mem[i][i];
        }
+       TulisMATRIKS(M);
+       System.out.println();
+       System.out.println();
        System.out.println("Determinan: " + det);
     }
 
@@ -914,17 +905,10 @@ public class MatriksAdt{
             x = M.Mem[j][i];
             for(k = i; k <= M.NKolEff; k++){
                M.Mem[j][k] = M.Mem[j][k] - x/M.Mem[NB][i]*M.Mem[NB][k];
-               TulisMATRIKS(M);
-               System.out.println();
-               System.out.println();
             }
             BagiBaris(M,j);
-            TulisMATRIKS(M);
-            System.out.println();
-            System.out.println();
          }
       }
-
    }
 
    public static void Gauss (MATRIKS M){
@@ -935,8 +919,10 @@ public class MatriksAdt{
       for(i = 1; i <= M.NBrsEff; i++){
          SwapAllBaris(M);
          KurangOBE(M,i);
-         
       }
+      TulisMATRIKS(M);
+      System.out.println();
+      System.out.println();
    }
         
 
@@ -969,15 +955,12 @@ public class MatriksAdt{
                       M.Mem[n][k] = M.Mem[n][k] - ( M.Mem[i][k] * y ); 
                    }
                 }
-                TulisMATRIKS(M);
-                System.out.println();
-                System.out.println("--------------");
              }
           }
-          TulisMATRIKS(M);
-          System.out.println();
-          System.out.println("--------------");
        }
+       TulisMATRIKS(M);
+       System.out.println();
+       System.out.println();
     }
 
 
@@ -1032,21 +1015,6 @@ public class MatriksAdt{
          e.printStackTrace();
       }
    }
-
-   /* public static void saveFile(Double x){
-      Scanner sc = new Scanner(System.in);
-      try {
-         System.out.print("Masukkan nama file : ");
-         FileWriter myWriter = new FileWriter(sc.next());
-         myWriter.write(x);
-         myWriter.close();
-         System.out.println("Penyimpanan ke dalam file");
-      } 
-      catch (IOException e) {
-         System.out.println("Terjadi kesalahan");
-         e.printStackTrace();
-      }
-   } */
 
     // Function to perform the inverse operation on the matrix.
    public static void BackwardSubInterpolasi (MATRIKS MAug, double [] Hasil){
@@ -1412,5 +1380,34 @@ public class MatriksAdt{
       System.out.println();
    }
 
-   public static void BacaHilbert (MATRIKS MAug){}
+   public static void BacaHilbert (MATRIKS MAug) 
+   {
+      /* KAMUS LOKAL */
+      int i, j, N;
+      double k;
+      
+      /* ALGORITMA */
+      System.out.print("Masukkan ukuran N matriks hilbert: ");
+      Scanner keyboard = new Scanner(System.in);
+      N = keyboard.nextInt();
+      for (i = 1; i <= N; i ++) {
+         k = i;
+         for (j = 1; j <= N + 1; j ++) {
+            if (j != N +1) {
+               MAug.Mem[i][j] = (1/k);
+               k++; 
+            }
+            else {
+               if (i == 1) {
+                  MAug.Mem[i][j] = 1;
+               }
+               else {
+                  MAug.Mem[i][j] = 0;
+               }
+            }
+         }
+      }
+      MakeMATRIKS(N, N+1, MAug);
+      TulisMATRIKS(MAug);
+   }
 }
