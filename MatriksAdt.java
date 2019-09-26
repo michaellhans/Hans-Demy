@@ -334,7 +334,7 @@ public class MatriksAdt{
         int op; int choose;
         Scanner keyboard = new Scanner (System.in);
         /* Algoritma */
-        System.out.println("Terdapat 2 metode pengisian matriks");
+        System.out.println("Terdapat 3 metode pengisian matriks");
         System.out.println("1. Baca dari input keyboard");
         System.out.println("2. Baca dari suatu file .txt");
         System.out.println("3. Baca dari matriks Hilbert");
