@@ -1033,8 +1033,8 @@ public class MatriksAdt{
       }
    }
 
-   public static void saveFile(Double x){
-      Scanner sc = new Scanner(System.in)
+   /* public static void saveFile(Double x){
+      Scanner sc = new Scanner(System.in);
       try {
          System.out.print("Masukkan nama file : ");
          FileWriter myWriter = new FileWriter(sc.next());
@@ -1046,7 +1046,7 @@ public class MatriksAdt{
          System.out.println("Terjadi kesalahan");
          e.printStackTrace();
       }
-   }
+   } */
 
     // Function to perform the inverse operation on the matrix.
    public static void BackwardSubInterpolasi (MATRIKS MAug, double [] Hasil){
@@ -1067,7 +1067,7 @@ public class MatriksAdt{
       System.out.println(); System.out.println();
       System.out.println("Matriks Solusi SPL diatas adalah = ");
       for (i=1; i<=n; i++){
-           System.out.println("a"+i+" = "+Hasil[i]);
+           System.out.println("a"+i+" = "+String.format("%.4f",Hasil[i]));
       }
       System.out.println();
    }
@@ -1083,7 +1083,7 @@ public class MatriksAdt{
      System.out.print("P(x) = ");
      for (i=1; i<=N; i++){
         if (i!=N){
-           if ((Hasil[i]>0.00001)){
+           if ((Hasil[i]>0.000001)){
               System.out.print(String.format("%.4f",Hasil[i])+"x^"+(N-i)+" + ");
            }
         }
@@ -1095,7 +1095,7 @@ public class MatriksAdt{
      System.out.println();
      System.out.print("Masukkan nilai x yang ingin dihitung dengan P(x) = ");
      x = keyboard.nextDouble();
-     System.out.println("Hasil P("+x+") adalah "+HitungPolinom(Hasil,N,x));
+     System.out.println("Hasil P("+x+") adalah "+String.format("%.4f",HitungPolinom(Hasil,N,x)));
    }
     
    public static void InversGJ(MATRIKS MAug)
@@ -1300,7 +1300,7 @@ public class MatriksAdt{
       /* Algoritma */
       total = 0;
       for (i=N; i>0; i--){
-         total = total + Hasil[i]*Math.pow(x,i-1);
+         total = total + Hasil[i]*Math.pow(x,N-i);
       }
       return total;
    }
@@ -1378,17 +1378,17 @@ public class MatriksAdt{
                   else if (j==i){
                      if (count == 0){
                         System.out.print("X"+i+" = ");
-                        System.out.print(MAug.Mem[i][MAug.NKolEff]);
+                        System.out.print(String.format("%.4f",MAug.Mem[i][MAug.NKolEff]));
                      }
                      else {
                         System.out.print("X"+i+" = ");
                         System.out.print(MAug.Mem[i][MAug.NKolEff]+" + ");
                         for (k=1; k<=count; k++){
                            if (k<count){
-                              System.out.print(-MAug.Mem[i][MAug.NKolEff-k]+""+FreeVar[MAug.NKolEff-k]+" + ");
+                              System.out.print(String.format("%.4f",-MAug.Mem[i][MAug.NKolEff-k])+""+FreeVar[MAug.NKolEff-k]+" + ");
                            }
                            else {
-                              System.out.print(-MAug.Mem[i][MAug.NKolEff-k]+""+FreeVar[MAug.NKolEff-k]);
+                              System.out.print(String.format("%.4f",-MAug.Mem[i][MAug.NKolEff-k])+""+FreeVar[MAug.NKolEff-k]);
                            }
                         }
                      }

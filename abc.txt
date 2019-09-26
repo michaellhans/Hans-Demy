@@ -1,0 +1,23 @@
+OK
+
+IF2123 Aljabar Linear dan Geometri
+Sistem Persamaan Linear, Determinan, dan Aplikasinya
+
+Created by : Hans-Demy
+13518056 - Michael Hans
+13518119 - Lionnarta Savirandy
+13518128 - Rafael Sean Putra
+
+MENU PROGRAM
+1. Sistem Persamaan Linier
+2. Determinan
+3. Matriks Balikan
+4. Matriks Kofaktor
+5. Adjoin
+6. Interpolasi Polinom
+7. Keluar
+Masukkan pilihan menu yang diinginkan : 
+Terdapat 2 metode pengisian matriks
+1. Baca dari input keyboard
+2. Baca dari suatu file .txt
+Pilih metode pengisian matriks yang diinginkan
